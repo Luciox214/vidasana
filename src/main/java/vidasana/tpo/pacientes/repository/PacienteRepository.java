@@ -7,7 +7,7 @@ import vidasana.tpo.pacientes.model.Paciente;
 import java.util.Optional;
 
 public interface PacienteRepository extends MongoRepository<Paciente, String> {
-    Optional<Object> findByEmail(String email);
+    Optional<Paciente> findByEmail(String email);
 
-    Optional<Object> findByDni(@NotNull(message = "El DNI no puede ser nulo") String dni);
+    Optional<Paciente> findByDni(@NotNull(message = "El DNI no puede ser nulo") String dni);
 }
