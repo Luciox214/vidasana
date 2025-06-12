@@ -7,13 +7,13 @@ import vidasana.tpo.auth.service.JwtService;
 import vidasana.tpo.auth.service.SessionService;
 import vidasana.tpo.exceptions.BadRequestException;
 import vidasana.tpo.medicos.model.Medico;
-import vidasana.tpo.medicos.model.MedicoNode;
-import vidasana.tpo.medicos.repository.MedicoNodeRepository;
+import vidasana.tpo.red.model.MedicoNode;
+import vidasana.tpo.red.repositories.MedicoNodeRepository;
 import vidasana.tpo.medicos.repository.MedicoRepository;
 import vidasana.tpo.medicos.service.MedicoService;
 import vidasana.tpo.pacientes.model.Paciente;
-import vidasana.tpo.pacientes.model.PacienteNode;
-import vidasana.tpo.pacientes.repository.PacienteNodeRepository;
+import vidasana.tpo.red.model.PacienteNode;
+import vidasana.tpo.red.repositories.PacienteNodeRepository;
 import vidasana.tpo.pacientes.repository.PacienteRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import vidasana.tpo.pacientes.service.PacienteService;
@@ -54,11 +54,12 @@ public class AuthController {
         sessionService.saveSession(token, pacienteGuardado.getId(), pacienteGuardado.getRol().name(), pacienteGuardado.getEmail());
 
         //Creacion del nodo en Neo4j
-        PacienteNode nodo = new PacienteNode(pacienteGuardado.getId(), pacienteGuardado.getNombre());
+        PacienteNode nodo = new PacienteNode();
+        nodo.setId(pacienteGuardado.getId());
+        nodo.setNombre(pacienteGuardado.getNombre());
         pacienteNodeRepository.save(nodo);
         return ResponseEntity.ok().body(token);
     }
-
     @PostMapping("/register/medico")
     public ResponseEntity<?> registerMedico(@RequestBody Medico request) {
         if (medicoRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -69,13 +70,13 @@ public class AuthController {
         String token = jwtService.generateToken(medicoGuardado.getId(), medicoGuardado.getRol().name());
         sessionService.saveSession(token, medicoGuardado.getId(), medicoGuardado.getRol().name(), medicoGuardado.getEmail());
 
-        //Creacion del nodo en Neo4j
-        MedicoNode nodo = new MedicoNode(medicoGuardado.getId(), medicoGuardado.getNombre(), new HashSet<>());
+        MedicoNode nodo = new MedicoNode();
         nodo.setId(medicoGuardado.getId());
-        System.out.println(nodo.getId());
+        nodo.setNombre(medicoGuardado.getNombre());
         medicoNodeRepository.save(nodo);
         return ResponseEntity.ok().body(token);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
