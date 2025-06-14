@@ -1,21 +1,19 @@
-package vidasana.tpo.medicos.model;
+package vidasana.tpo.red.model;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Property;
-import org.springframework.data.neo4j.core.schema.Relationship;
-import vidasana.tpo.pacientes.model.PacienteNode;
-
+import org.springframework.data.neo4j.core.schema.*;
 import java.util.Set;
 
-
-@Node("Medico")
+@Node("Paciente")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicoNode {
+public class PacienteNode {
+
     @Id
     @Property("id")
     private String id;
@@ -23,5 +21,7 @@ public class MedicoNode {
     private String nombre;
 
     @Relationship(type = "ATIENDE", direction = Relationship.Direction.OUTGOING)
-    private Set<PacienteNode> pacientes;
+    private Set<RelacionAtiende> medicos;
+
+
 }
