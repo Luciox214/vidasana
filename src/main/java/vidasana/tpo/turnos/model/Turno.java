@@ -19,6 +19,4 @@ public class Turno {
     private String medicoId;
     private LocalDateTime fecha;
     private String estado; // Ej: "PENDIENTE", "CONFIRMADO"
-    private boolean recordatorioEnviado = false;
-
 }

@@ -2,7 +2,6 @@ package vidasana.tpo.turnos.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vidasana.tpo.turnos.email.service.EmailService;
 import vidasana.tpo.medicos.model.Medico;
 import vidasana.tpo.medicos.repository.MedicoRepository;
 import vidasana.tpo.pacientes.model.Paciente;
