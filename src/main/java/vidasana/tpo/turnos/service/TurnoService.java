@@ -7,6 +7,7 @@ import vidasana.tpo.medicos.repository.MedicoRepository;
 import vidasana.tpo.pacientes.model.Paciente;
 import vidasana.tpo.pacientes.repository.PacienteRepository;
 import vidasana.tpo.red.repositories.RedRepository;
+import vidasana.tpo.turnos.email.service.EmailService;
 import vidasana.tpo.turnos.model.Turno;
 import vidasana.tpo.turnos.repository.TurnoRepository;
 

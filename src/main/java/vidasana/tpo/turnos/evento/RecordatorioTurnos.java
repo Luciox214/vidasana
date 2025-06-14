@@ -1,7 +1,6 @@
 package vidasana.tpo.turnos.evento;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import vidasana.tpo.turnos.email.service.EmailService;
 import vidasana.tpo.pacientes.repository.PacienteRepository;
