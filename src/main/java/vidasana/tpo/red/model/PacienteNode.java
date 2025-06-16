@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.neo4j.core.schema.*;
 import java.util.Set;
 
-@Node("Paciente")
+@Node("PacienteNode")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +17,7 @@ public class PacienteNode {
     @Id
     @Property("id")
     private String id;
-
+    @Property("nombre")
     private String nombre;
 
     @Relationship(type = "ATIENDE", direction = Relationship.Direction.OUTGOING)
