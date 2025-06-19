@@ -1,0 +1,19 @@
+.medicos-card {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #f9f9ff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #e0e0e0;
+  padding: 32px 24px 24px 24px;
+}
+.medicos-table th, .medicos-table td {
+  text-align: center;
+  padding: 8px 4px;
+}
+.medicos-table th {
+  background: #e3eafc;
+  color: #1976d2;
+}
+.medicos-table tr:nth-child(even) {
+  background: #f4f8ff;
+}

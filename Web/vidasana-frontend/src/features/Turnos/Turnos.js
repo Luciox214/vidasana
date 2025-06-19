@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getTurnosPaciente } from '../../api';
+import NuevoTurno from './NuevoTurno';
 import './Turnos.css';
 
 const Turnos = () => {
@@ -7,16 +8,21 @@ const Turnos = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
+  const cargarTurnos = () => {
     setLoading(true);
     getTurnosPaciente()
       .then(res => setTurnos(res.data))
       .catch(() => setError('Error al cargar turnos'))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    cargarTurnos();
   }, []);
 
   return (
     <div className="card">
+      <NuevoTurno onTurnoCreado={cargarTurnos} />
       <h2>Mis Turnos</h2>
       {error && <div className="error-msg">{error}</div>}
       {loading ? (

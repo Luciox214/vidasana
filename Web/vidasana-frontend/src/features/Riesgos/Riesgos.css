@@ -1,4 +1,39 @@
 .riesgo-score {
-  font-weight: bold;
+  font-size: 1.3em;
+  font-weight: 600;
+  margin-bottom: 8px;
   color: #d32f2f;
+}
+
+.riesgo-nivel {
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px #e0e0e0;
+}
+
+.riesgo-recomendaciones {
+  margin: 12px 0 8px 0;
+  font-size: 1.05em;
+}
+
+.riesgo-detalles {
+  margin-top: 18px;
+  background: #f7fafd;
+  border-radius: 8px;
+  padding: 16px 12px;
+  box-shadow: 0 1px 4px #e0e0e0;
+}
+
+.riesgo-detalle-bloque {
+  margin-bottom: 12px;
+}
+
+.riesgo-detalle-bloque ul {
+  margin: 0 0 0 16px;
+  padding: 0;
+}
+
+.riesgo-detalle-bloque li {
+  margin-bottom: 2px;
 }

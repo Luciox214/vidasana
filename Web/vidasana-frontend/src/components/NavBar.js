@@ -18,16 +18,15 @@ const NavBar = () => {
   const role = getUserRole();
   return (
     <nav className="navbar">
-      <div className="navbar-logo">VidaSana</div>
+      <Link to="/dashboard" className="navbar-logo" style={{fontWeight: 'bold', fontSize: '1.7rem', letterSpacing: '1px', color: '#fff', textDecoration: 'none', marginRight: '2.5rem'}}>VidaSana</Link>
       <ul className="navbar-links">
-        <li><Link to="/dashboard">Dashboard</Link></li>
-        {/* Solo para médicos/admins */}
-        {role !== 'PACIENTE' && <li><Link to="/pacientes">Pacientes</Link></li>}
         <li><Link to="/profesionales">Profesionales</Link></li>
         <li><Link to="/habitos">Hábitos</Link></li>
-        <li><Link to="/red">Red</Link></li>
         <li><Link to="/turnos">Turnos</Link></li>
         <li><Link to="/riesgos">Riesgos</Link></li>
+        <li><Link to="/historia-clinica">Historia Clínica</Link></li>
+        {/* Solo para médicos/admins */}
+        {role !== 'PACIENTE' && <li><Link to="/pacientes">Pacientes</Link></li>}
         {/* Agrega más links según módulos */}
       </ul>
     </nav>

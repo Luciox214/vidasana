@@ -1,51 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getHabitos, getTurnosPaciente, getHistoriaClinica } from '../../api';
 import './Dashboard.css';
 
-// Datos simulados para analítica
-const pacientes = 12;
-const profesionales = 5;
-const turnosHoy = 4;
-const alertas = 2;
-const habitosStats = [
-  { label: 'Sueño óptimo', value: 8 },
-  { label: 'Sueño insuficiente', value: 4 },
-];
-const sintomasStats = [
-  { label: 'Sin síntomas', value: 7 },
-  { label: 'Con síntomas', value: 5 },
-];
-
 const Dashboard = () => {
+  const [habitos, setHabitos] = useState([]);
+  const [turnos, setTurnos] = useState([]);
+  const [historia, setHistoria] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([
+      getHabitos(),
+      getTurnosPaciente(),
+      getHistoriaClinica()
+    ]).then(([habitosRes, turnosRes, historiaRes]) => {
+      setHabitos(habitosRes.data || []);
+      setTurnos(turnosRes.data || []);
+      setHistoria(historiaRes.data || null);
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, []);
+
+  // Analítica simple
+  const suenoOptimo = habitos.filter(h => Number(h.sueno) >= 7).length;
+  const suenoInsuficiente = habitos.length - suenoOptimo;
+  const sintomas = habitos.reduce((acc, h) => acc + (h.sintomas && h.sintomas.length > 0 ? 1 : 0), 0);
+  const sinSintomas = habitos.length - sintomas;
+
   return (
     <div>
       <div className="dashboard-grid">
         <div className="dashboard-card">
-          <h3>Pacientes activos</h3>
-          <div className="dashboard-number">{pacientes}</div>
+          <h3>Hábitos registrados</h3>
+          <div className="dashboard-number">{habitos.length}</div>
         </div>
         <div className="dashboard-card">
-          <h3>Profesionales</h3>
-          <div className="dashboard-number">{profesionales}</div>
+          <h3>Turnos solicitados</h3>
+          <div className="dashboard-number">{turnos.length}</div>
         </div>
         <div className="dashboard-card">
-          <h3>Turnos hoy</h3>
-          <div className="dashboard-number">{turnosHoy}</div>
+          <h3>IMC</h3>
+          <div className="dashboard-number">{historia?.imc ? historia.imc.toFixed(1) : '—'}</div>
         </div>
         <div className="dashboard-card dashboard-alert">
-          <h3>Alertas de riesgo</h3>
-          <div className="dashboard-number">{alertas}</div>
+          <h3>Grupo Sanguíneo</h3>
+          <div className="dashboard-number">{historia?.grupoSanguineo || '—'}</div>
         </div>
       </div>
       <div className="dashboard-analytics">
         <div className="dashboard-analytics-card">
           <h4>Distribución de Sueño</h4>
-          <PieChart data={habitosStats} />
+          <PieChart data={[
+            { label: 'Sueño óptimo (≥7h)', value: suenoOptimo },
+            { label: 'Sueño insuficiente', value: suenoInsuficiente }
+          ]} />
         </div>
         <div className="dashboard-analytics-card">
           <h4>Síntomas reportados</h4>
-          <PieChart data={sintomasStats} />
+          <PieChart data={[
+            { label: 'Sin síntomas', value: sinSintomas },
+            { label: 'Con síntomas', value: sintomas }
+          ]} />
         </div>
       </div>
+      {loading && <div style={{marginTop: 24}}>Cargando datos...</div>}
     </div>
   );
 };

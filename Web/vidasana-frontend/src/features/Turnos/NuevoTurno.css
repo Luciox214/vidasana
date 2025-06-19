@@ -1,45 +1,33 @@
-.habitos-card {
-  max-width: 500px;
-  margin: 0 auto;
+.nuevo-turno-card {
+  max-width: 400px;
+  margin: 0 auto 32px auto;
   background: #f9f9ff;
   border-radius: 10px;
   box-shadow: 0 2px 8px #e0e0e0;
-  padding: 32px 24px 24px 24px;
+  padding: 24px 20px 20px 20px;
 }
-
-.habitos-form {
+.nuevo-turno-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  margin-bottom: 24px;
+  gap: 16px;
 }
-
-.habitos-field {
+.nuevo-turno-field {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-
-.habitos-form label {
+.nuevo-turno-form label {
   font-weight: 500;
   color: #1976d2;
   margin-bottom: 2px;
 }
-
-.habitos-form .hint {
-  color: #888;
-  font-size: 12px;
-  margin-left: 6px;
-}
-
-.habitos-form input {
+.nuevo-turno-form input, .nuevo-turno-form select {
   padding: 8px;
   border: 1px solid #b0b0b0;
   border-radius: 4px;
   font-size: 15px;
 }
-
-.habitos-btn {
+.nuevo-turno-btn {
   background: #1976d2;
   color: #fff;
   border: none;
@@ -51,22 +39,6 @@
   margin-top: 8px;
   transition: background 0.2s;
 }
-
-.habitos-btn:hover {
+.nuevo-turno-btn:hover {
   background: #125ea2;
-}
-
-.habitos-table th,
-.habitos-table td {
-  text-align: center;
-  padding: 8px 4px;
-}
-
-.habitos-table th {
-  background: #e3eafc;
-  color: #1976d2;
-}
-
-.habitos-table tr:nth-child(even) {
-  background: #f4f8ff;
 }

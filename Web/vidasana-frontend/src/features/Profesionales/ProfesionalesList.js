@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '../../api';
+import { getMedicos } from '../../api';
 import './ProfesionalesList.css';
 
 const ProfesionalesList = () => {
@@ -9,7 +9,7 @@ const ProfesionalesList = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    api.get('/medicos')
+    getMedicos()
       .then(res => setProfesionales(res.data))
       .catch(() => setError('Error al cargar profesionales'))
       .finally(() => setLoading(false));
@@ -25,8 +25,9 @@ const ProfesionalesList = () => {
         <thead>
           <tr>
             <th>Nombre</th>
-            <th>Matrícula</th>
+            <th>Apellido</th>
             <th>Especialidad</th>
+            <th>Email</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -34,8 +35,9 @@ const ProfesionalesList = () => {
           {profesionales.map(m => (
             <tr key={m.id}>
               <td>{m.nombre}</td>
-              <td>{m.matricula}</td>
+              <td>{m.apellido}</td>
               <td>{m.especialidad}</td>
+              <td>{m.email}</td>
               <td>
                 <button className="btn" onClick={() => setSelected(m)}>Ver Perfil</button>
               </td>
@@ -46,12 +48,11 @@ const ProfesionalesList = () => {
       {selected && (
         <div className="historia-modal">
           <div className="historia-content">
-            <h3>Perfil de {selected.nombre}</h3>
+            <h3>Perfil de {selected.nombre} {selected.apellido}</h3>
             <ul>
-              <li><b>Email:</b> {selected.perfil?.email}</li>
-              <li><b>Teléfono:</b> {selected.perfil?.telefono}</li>
-              <li><b>Sede:</b> {selected.perfil?.sede}</li>
-              <li><b>Pacientes asignados:</b> {selected.perfil?.pacientes?.join(', ')}</li>
+              <li><b>Email:</b> {selected.email}</li>
+              <li><b>Especialidad:</b> {selected.especialidad}</li>
+              <li><b>Matrícula:</b> {selected.matricula}</li>
             </ul>
             <button className="btn" onClick={() => setSelected(null)}>Cerrar</button>
           </div>

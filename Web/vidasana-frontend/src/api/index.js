@@ -62,6 +62,10 @@ export const getTurnosPaciente = async () => {
   return api.get('/turnos');
 };
 
+export const postTurno = async (data) => {
+  return api.post('/turnos', data);
+};
+
 // MEDICOS: obtener médicos que atienden al paciente autenticado
 export const getMedicosPaciente = async () => {
   return api.get('/red/paciente/medicos');
@@ -70,6 +74,20 @@ export const getMedicosPaciente = async () => {
 // Obtener todos los médicos (para pantallas que lo requieran)
 export const getMedicos = async () => {
   return api.get('/medicos');
+};
+
+// Obtener y actualizar historia clínica del paciente autenticado
+export const getHistoriaClinica = async () => {
+  return api.get('/pacientes/historia');
+};
+
+export const updateHistoriaClinica = async (data) => {
+  return api.put('/pacientes/historia', data);
+};
+
+// Obtener el score de riesgo del paciente autenticado
+export const getRiesgoPaciente = async () => {
+  return api.get('/pacientes/riesgo');
 };
 
 // Agrega más funciones para otros endpoints

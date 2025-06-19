@@ -1,0 +1,32 @@
+.historia-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.historia-form input,
+.historia-form textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.historia-form .btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.historia-form .btn:hover {
+  background: #125ea2;
+}
+.error-msg {
+  color: #c00;
+  margin-top: 10px;
+}
+.success-msg {
+  color: #080;
+  margin-top: 10px;
+}

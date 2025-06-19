@@ -47,20 +47,29 @@ const Habitos = () => {
   };
 
   return (
-    <div className="card">
+    <div className="card habitos-card">
       <h2>Registro Diario de Hábitos y Síntomas</h2>
       <form className="habitos-form" onSubmit={handleSubmit}>
-        <input name="sueno" type="number" min="0" max="24" placeholder="Horas de sueño" value={form.sueno} onChange={handleChange} required />
-        <input name="alimentacion" placeholder="Alimentación" value={form.alimentacion} onChange={handleChange} required />
-        <input name="sintomas" placeholder="Síntomas (separados por coma)" value={form.sintomas} onChange={handleChange} />
-        <button className="btn" type="submit">Registrar</button>
+        <div className="habitos-field">
+          <label htmlFor="sueno">Horas de sueño <span className="hint">(0 a 24)</span></label>
+          <input name="sueno" id="sueno" type="number" min="0" max="24" placeholder="Ej: 7" value={form.sueno} onChange={handleChange} required />
+        </div>
+        <div className="habitos-field">
+          <label htmlFor="alimentacion">Alimentación <span className="hint">(¿Qué comiste hoy?)</span></label>
+          <input name="alimentacion" id="alimentacion" placeholder="Ej: Ensalada, pollo, arroz..." value={form.alimentacion} onChange={handleChange} required />
+        </div>
+        <div className="habitos-field">
+          <label htmlFor="sintomas">Síntomas <span className="hint">(separados por coma, si tuviste)</span></label>
+          <input name="sintomas" id="sintomas" placeholder="Ej: dolor de cabeza, tos" value={form.sintomas} onChange={handleChange} />
+        </div>
+        <button className="btn habitos-btn" type="submit">Registrar</button>
       </form>
       {error && <div className="error-msg">{error}</div>}
       {success && <div className="success-msg">{success}</div>}
       {loading ? (
         <div>Cargando hábitos...</div>
       ) : (
-        <table className="table">
+        <table className="table habitos-table">
           <thead>
             <tr>
               <th>Fecha</th>
