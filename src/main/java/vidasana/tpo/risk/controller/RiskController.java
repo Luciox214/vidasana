@@ -46,6 +46,8 @@ public class RiskController {
 
         for (Paciente paciente : pacientes) {
             if (paciente.getHistoriaClinica() != null) {
+                // Generar hábitos para los últimos 30 días
+                habitoDiarioService.simularHabitos(paciente.getId(), 30);
                 continue; // Saltar pacientes con historia clínica existente
             }
 

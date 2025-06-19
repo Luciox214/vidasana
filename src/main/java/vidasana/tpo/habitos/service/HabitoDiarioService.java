@@ -55,9 +55,11 @@ public class HabitoDiarioService {
                 h.setSintomas(new ArrayList<>());
             } else {
                 h.setSintomas(List.of(posiblesSintomas[random.nextInt(posiblesSintomas.length)]));
+                simulados.add(h);
+                habitoDiarioRepository.save(h);
             }
 
-            simulados.add(h);
+
         }
 
         return simulados;

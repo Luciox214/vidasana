@@ -29,9 +29,6 @@ public class PacienteService {
         return pacienteRepository.save(request);
     }
 
-    public List<Paciente> obtenerTodos() {
-        return pacienteRepository.findAll();
-    }
 
     public Optional<Paciente> obtenerPorId(String id) {
         return pacienteRepository.findById(id);

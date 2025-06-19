@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface RiskRepository extends MongoRepository<RiskScore, String> {
 
     @Query("{'pacienteId': ?0}")
-    Optional<RiskScore> findByPacienteId(String pacienteId);
+    List<RiskScore> findByPacienteId(String pacienteId);
 
     @Query("{'nivelRiesgo': 'ALTO'}")
     List<RiskScore> findHighRiskPatients();

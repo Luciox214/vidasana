@@ -20,7 +20,7 @@ public class PacienteNode {
     @Property("nombre")
     private String nombre;
 
-    @Relationship(type = "ATIENDE", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "ATIENDE", direction = Relationship.Direction.INCOMING)
     private Set<RelacionAtiende> medicos;
 
 
