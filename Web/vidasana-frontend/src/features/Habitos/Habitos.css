@@ -1,0 +1,16 @@
+.habitos-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.habitos-form input {
+  padding: 0.5rem 1rem;
+  border: 1px solid #bdbdbd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.habitos-form .btn {
+  margin-left: 1rem;
+}

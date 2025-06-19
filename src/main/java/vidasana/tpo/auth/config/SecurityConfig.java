@@ -21,6 +21,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // Permitir preflight CORS
                         .requestMatchers("/api/v1/riesgos/**").permitAll()
                         .requestMatchers("/api/v1/recordatorios").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
