@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getHabitos, getTurnosPaciente, getHistoriaClinica } from '../../api';
 import './Dashboard.css';
+import DashboardMedico from './DashboardMedico';
 
 const Dashboard = () => {
   const [habitos, setHabitos] = useState([]);
@@ -27,6 +28,22 @@ const Dashboard = () => {
   const suenoInsuficiente = habitos.length - suenoOptimo;
   const sintomas = habitos.reduce((acc, h) => acc + (h.sintomas && h.sintomas.length > 0 ? 1 : 0), 0);
   const sinSintomas = habitos.length - sintomas;
+
+  // Utilidad para obtener el rol desde el JWT guardado
+  function getUserRole() {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return null;
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.role;
+    } catch {
+      return null;
+    }
+  }
+  const role = getUserRole();
+  if (role === 'MEDICO') {
+    return <DashboardMedico />;
+  }
 
   return (
     <div>

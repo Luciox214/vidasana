@@ -66,6 +66,11 @@ export const postTurno = async (data) => {
   return api.post('/turnos', data);
 };
 
+// TURNOS MÉDICO: obtener turnos asignados al médico autenticado
+export const getTurnosMedico = async () => {
+  return api.get('/turnos/medico');
+};
+
 // MEDICOS: obtener médicos que atienden al paciente autenticado
 export const getMedicosPaciente = async () => {
   return api.get('/red/paciente/medicos');
@@ -88,6 +93,31 @@ export const updateHistoriaClinica = async (data) => {
 // Obtener el score de riesgo del paciente autenticado
 export const getRiesgoPaciente = async () => {
   return api.get('/pacientes/riesgo');
+};
+
+// DASHBOARD MÉDICO: obtener datos del dashboard profesional
+export const getDashboardMedico = async () => {
+  return api.get('/dashboard/medico');
+};
+
+// PACIENTES MÉDICO: obtener pacientes asignados al médico autenticado
+export const getPacientesMedico = async () => {
+  return api.get('/red/medico/pacientes');
+};
+
+// Obtener historia clínica de un paciente por ID (para médicos)
+export const getHistoriaClinicaPaciente = async (pacienteId) => {
+  return api.get(`/pacientes/${pacienteId}/historia`);
+};
+
+// Obtener riesgo de un paciente por ID (para médicos)
+export const getRiesgoPacienteById = async (pacienteId) => {
+  return api.get(`/pacientes/${pacienteId}/riesgo`);
+};
+
+// RED MÉDICA: obtener médicos relacionados al médico autenticado
+export const getMedicosRelacionados = async () => {
+  return api.get('/red/medico/medicos');
 };
 
 // Agrega más funciones para otros endpoints
