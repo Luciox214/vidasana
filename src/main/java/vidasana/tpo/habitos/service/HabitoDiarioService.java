@@ -26,7 +26,6 @@ public class HabitoDiarioService {
     public List<HabitoDiario> obtenerPorPaciente(String pacienteId) {
         return habitoDiarioRepository.findByPacienteIdOrderByFechaDesc(pacienteId);
     }
-
     public List<HabitoDiario> simularHabitos(String pacienteId, int dias) {
         List<HabitoDiario> simulados = new ArrayList<>();
         Random random = new Random();
@@ -44,12 +43,25 @@ public class HabitoDiarioService {
             HabitoDiario h = new HabitoDiario();
             h.setPacienteId(pacienteId);
             h.setFecha(LocalDate.now().minusDays(i));
+
+            // Generar horas de sueño
             h.setSueno(4 + random.nextInt(5)); // de 4 a 8 hs
+
+            // Generar alimentación
             h.setAlimentacion(opcionesAlimentacion[random.nextInt(opcionesAlimentacion.length)]);
-            h.setSintomas(List.of(posiblesSintomas[random.nextInt(posiblesSintomas.length)]));
-            simulados.add(h);
+
+            // Generar síntomas con posibilidad de sentirse bien
+            if (random.nextInt(100) < 50) { // 50% de probabilidad de no tener síntomas
+                h.setSintomas(new ArrayList<>());
+            } else {
+                h.setSintomas(List.of(posiblesSintomas[random.nextInt(posiblesSintomas.length)]));
+                simulados.add(h);
+                habitoDiarioRepository.save(h);
+            }
+
+
         }
 
-        return habitoDiarioRepository.saveAll(simulados);
+        return simulados;
     }
 }

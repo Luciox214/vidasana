@@ -21,7 +21,7 @@ public class TurnoController {
     public ResponseEntity<Turno> solicitarTurno(@RequestBody Turno turno, Authentication auth) {
         turno.setPacienteId((String) auth.getPrincipal());
         turno.setEstado("PENDIENTE");
-        return ResponseEntity.ok(turnoService.crearTurnoYActualizarRed(turno));
+        return ResponseEntity.ok(turnoService.guardarTurnoPendiente(turno));
     }
 
     @GetMapping()
@@ -29,6 +29,14 @@ public class TurnoController {
     public ResponseEntity<List<Turno>> verTurnosPaciente(Authentication auth) {
         return ResponseEntity.ok(turnoService.obtenerPorPaciente((String) auth.getPrincipal()));
     }
+
+
+    @PutMapping("/{turnoId}/confirmar")
+    @PreAuthorize("hasRole('MEDICO')")
+    public ResponseEntity<Turno> confirmarTurno(@PathVariable String turnoId, @RequestParam boolean confirmar, Authentication auth) {
+        return ResponseEntity.ok(turnoService.confirmarTurno(turnoId, (String) auth.getPrincipal(), confirmar));
+    }
+
     @GetMapping("/medico")
     @PreAuthorize("hasRole('MEDICO')")
     public ResponseEntity<List<Turno>> verTurnosMedico(Authentication auth) {

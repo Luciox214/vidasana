@@ -8,11 +8,13 @@ import vidasana.tpo.pacientes.model.Paciente;
 import vidasana.tpo.pacientes.repository.PacienteRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PacienteService {
+
     @Autowired
-    PacienteRepository pacienteRepository;
+    private PacienteRepository pacienteRepository;
 
     public Paciente crear(Paciente request) {
         if (pacienteRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -27,7 +29,12 @@ public class PacienteService {
         return pacienteRepository.save(request);
     }
 
-    public List<Paciente> obtenerTodos() {
-        return pacienteRepository.findAll();
+
+    public Optional<Paciente> obtenerPorId(String id) {
+        return pacienteRepository.findById(id);
+    }
+
+    public void actualizarPaciente(Paciente paciente) {
+        pacienteRepository.save(paciente);
     }
 }

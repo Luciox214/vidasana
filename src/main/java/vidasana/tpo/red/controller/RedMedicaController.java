@@ -18,6 +18,12 @@ public class RedMedicaController {
     @Autowired
     RedMedicaService redService;
 
+    @GetMapping("/paciente/medicos")
+    @PreAuthorize("hasRole('PACIENTE')")
+    public ResponseEntity<Set<MedicoNode>> listarMedicos(Authentication authentication) {
+        String pacienteId = authentication.getPrincipal().toString();
+        return ResponseEntity.ok(redService.listarMedicosDePaciente(pacienteId));
+    }
     @GetMapping("/medico/pacientes")
     @PreAuthorize("hasRole('MEDICO')")
     public ResponseEntity<Set<PacienteNode>> listarPacientes(Authentication authentication) {

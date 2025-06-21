@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import vidasana.tpo.auth.model.User;
+import vidasana.tpo.risk.model.HistoriaClinica;
 
 import java.time.LocalDate;
 
