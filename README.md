@@ -109,12 +109,6 @@ mvn spring-boot:run
 
 ### 📊 Dashboard (`/api/v1/dashboard`)
 - **Dashboard del Médico:** `GET /medico`
-```
 
-## 🔒 Seguridad
 
-El sistema implementa múltiples capas de seguridad:
-- Tokens JWT con expiración de 1 hora.
-- Filtros de autenticación personalizados. 
-- Control de acceso basado en roles con `@PreAuthorize`.
-- Encriptación de contraseñas con BCrypt.
+
