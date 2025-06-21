@@ -83,140 +83,32 @@ cd vidasana
 mvn spring-boot:run
 ```
 
-## 📘 API Endpoints
+## 📚 API Endpoints Principales
 
-## 🔐 Autenticación  
-Ruta base: `/api/v1/auth`
-
-### 📥 Registro de Paciente  
-**POST** `/api/v1/auth/register/paciente`  
-**Headers:**  
-`Content-Type: application/json`  
-
-**Body:**  
-```json
-{
-  "nombre": "Juan",
-  "apellido": "Pérez",
-  "email": "juan.perez@email.com",
-  "password": "password123",
-  "dni": "12345678",
-  "fechaNacimiento": "1990-05-15"
-}
-```
+### 🔐 Autenticación (`/api/v1/auth`)
+- **Registrar Paciente:** `POST /register/paciente`
+- **Registrar Médico:** `POST /register/medico`
+- **Iniciar Sesión:** `POST /login?email=...&password=...`
+- **Cerrar Sesión:** `POST /logout` _(requiere token)_
 
 ---
 
-### 📥 Registro de Médico  
-**POST** `/api/v1/auth/register/medico`  
-**Headers:**  
-`Content-Type: application/json`  
-
-**Body:**  
-```json
-{
-  "nombre": "María",
-  "apellido": "García",
-  "email": "maria.garcia@hospital.com",
-  "password": "password123",
-  "especialidad": "Cardiología"
-}
-```
+### 🏥 Gestión de Turnos (`/api/v1/turnos`)
+- **Solicitar Turno (paciente):** `POST /`
+- **Ver Turnos (paciente):** `GET /`
+- **Confirmar/Rechazar Turno (médico):** `PUT /{turnoId}/confirmar?confirmar=true`
+- **Ver Turnos (médico):** `GET /medico`
 
 ---
 
-### 🔑 Inicio de Sesión  
-**POST** `/api/v1/auth/login?email=usuario@email.com&password=password123`
+### 🌐 Red Médica (`/api/v1/red`)
+- **Listar Médicos (paciente):** `GET /paciente/medicos`
+- **Listar Pacientes (médico):** `GET /medico/pacientes`
 
 ---
 
-### 🔓 Cierre de Sesión  
-**POST** `/api/v1/auth/logout`  
-**Headers:**  
-`Authorization: Bearer <token>`  
-
----
-
-## 🏥 Gestión de Turnos  
-Ruta base: `/api/v1/turnos`
-
-### 📅 Solicitar Turno (Pacientes)  
-**POST** `/api/v1/turnos`  
-**Headers:**  
-`Authorization: Bearer <paciente-token>`  
-`Content-Type: application/json`  
-
-**Body:**  
-```json
-{
-  "medicoId": "675a1b2c3d4e5f6789012345",
-  "fecha": "2024-01-15T10:00:00",
-  "estado": "PENDIENTE",
-  "recordatorioEnviado": false
-}
-```
-
----
-
-### 📋 Ver Turnos del Paciente  
-**GET** `/api/v1/turnos`  
-**Headers:**  
-`Authorization: Bearer <paciente-token>`
-
----
-
-### ✅ Confirmar o Rechazar Turno (Médicos)  
-**PUT** `/api/v1/turnos/{turnoId}/confirmar?confirmar=true`  
-**Headers:**  
-`Authorization: Bearer <medico-token>`
-
----
-
-### 📋 Ver Turnos del Médico  
-**GET** `/api/v1/turnos/medico`  
-**Headers:**  
-`Authorization: Bearer <medico-token>`
-
----
-
-## 🌐 Red Médica  
-Ruta base: `/api/v1/red`
-
-### 🩺 Listar Médicos (para Pacientes)  
-**GET** `/api/v1/red/paciente/medicos`  
-**Headers:**  
-`Authorization: Bearer <paciente-token>`  
-
----
-
-### 🧍‍♂️ Listar Pacientes (para Médicos)  
-**GET** `/api/v1/red/medico/pacientes`  
-**Headers:**  
-`Authorization: Bearer <medico-token>`  
-
----
-
-## 📊 Dashboard  
-Ruta base: `/api/v1/dashboard`
-
-### 📈 Dashboard del Médico  
-**GET** `/api/v1/dashboard/medico`  
-**Headers:**  
-`Authorization: Bearer <medico-token>`  
-
-**Respuesta:**
-```json
-{
-  "medicoId": "675a1b2c3d4e5f6789012345",
-  "nombre": "Dr. García",
-  "totalPacientes": 45,
-  "pacientesRiesgoAlto": 3,
-  "riesgoPromedio": "MEDIO",
-  "promedioIMC": 24.5,
-  "sintomasFrecuentes": ["dolor de cabeza", "fatiga"],
-  "pacientes": [...],
-  "otrosMedicosRelacionados": [...]
-}
+### 📊 Dashboard (`/api/v1/dashboard`)
+- **Dashboard del Médico:** `GET /medico`
 ```
 
 ## 🔒 Seguridad
