@@ -36,7 +36,7 @@ public class DashboardService {
         // intentamos obtener el dashboard desde Redis
         Map<String, Object> cached = ops.get(redisKey);
         if (cached != null) {
-            System.out.println("✅ [CACHE] Dashboard encontrado en Redis para médico " + medicoId);
+            System.out.println("[CACHE] Dashboard encontrado en Redis para médico " + medicoId);
             return cached;
         }
 
@@ -67,7 +67,7 @@ public class DashboardService {
 
         // guardamos el resultado en Redis con TTL (5 min)
         ops.set(redisKey, dashboard, Duration.ofMinutes(5));
-        System.out.println("📝 [CACHE] Dashboard generado y guardado en Redis para médico " + medicoId);
+        System.out.println("[CACHE] Dashboard generado y guardado en Redis para médico " + medicoId);
 
         return dashboard;
     }
