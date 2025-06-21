@@ -83,23 +83,141 @@ cd vidasana
 mvn spring-boot:run
 ```
 
-## 📚 API Endpoints
+## 📘 API Endpoints
 
-### Autenticación
-- `POST /api/v1/auth/register/paciente` - Registro de pacientes
-- `POST /api/v1/auth/register/medico` - Registro de médicos  
-- `POST /api/v1/auth/login` - Inicio de sesión
-- `POST /api/v1/auth/logout` - Cierre de sesión
+## 🔐 Autenticación  
+Ruta base: `/api/v1/auth`
 
-### Red Médica
-- `GET /api/v1/red/paciente/medicos` - Médicos del paciente (requiere ROLE_PACIENTE)
-- `GET /api/v1/red/medico/pacientes` - Pacientes del médico (requiere ROLE_MEDICO)
+### 📥 Registro de Paciente  
+**POST** `/api/v1/auth/register/paciente`  
+**Headers:**  
+`Content-Type: application/json`  
 
-### Gestión de Pacientes
-- `POST /api/v1/pacientes/habitos` - Registrar hábitos diarios
-- `GET /api/v1/pacientes/habitos` - Consultar hábitos
-- `PUT /api/v1/pacientes/historia` - Actualizar historia clínica
-- `GET /api/v1/pacientes/riesgo` - Calcular riesgo de salud
+**Body:**  
+```json
+{
+  "nombre": "Juan",
+  "apellido": "Pérez",
+  "email": "juan.perez@email.com",
+  "password": "password123",
+  "dni": "12345678",
+  "fechaNacimiento": "1990-05-15"
+}
+```
+
+---
+
+### 📥 Registro de Médico  
+**POST** `/api/v1/auth/register/medico`  
+**Headers:**  
+`Content-Type: application/json`  
+
+**Body:**  
+```json
+{
+  "nombre": "María",
+  "apellido": "García",
+  "email": "maria.garcia@hospital.com",
+  "password": "password123",
+  "especialidad": "Cardiología"
+}
+```
+
+---
+
+### 🔑 Inicio de Sesión  
+**POST** `/api/v1/auth/login?email=usuario@email.com&password=password123`
+
+---
+
+### 🔓 Cierre de Sesión  
+**POST** `/api/v1/auth/logout`  
+**Headers:**  
+`Authorization: Bearer <token>`  
+
+---
+
+## 🏥 Gestión de Turnos  
+Ruta base: `/api/v1/turnos`
+
+### 📅 Solicitar Turno (Pacientes)  
+**POST** `/api/v1/turnos`  
+**Headers:**  
+`Authorization: Bearer <paciente-token>`  
+`Content-Type: application/json`  
+
+**Body:**  
+```json
+{
+  "medicoId": "675a1b2c3d4e5f6789012345",
+  "fecha": "2024-01-15T10:00:00",
+  "estado": "PENDIENTE",
+  "recordatorioEnviado": false
+}
+```
+
+---
+
+### 📋 Ver Turnos del Paciente  
+**GET** `/api/v1/turnos`  
+**Headers:**  
+`Authorization: Bearer <paciente-token>`
+
+---
+
+### ✅ Confirmar o Rechazar Turno (Médicos)  
+**PUT** `/api/v1/turnos/{turnoId}/confirmar?confirmar=true`  
+**Headers:**  
+`Authorization: Bearer <medico-token>`
+
+---
+
+### 📋 Ver Turnos del Médico  
+**GET** `/api/v1/turnos/medico`  
+**Headers:**  
+`Authorization: Bearer <medico-token>`
+
+---
+
+## 🌐 Red Médica  
+Ruta base: `/api/v1/red`
+
+### 🩺 Listar Médicos (para Pacientes)  
+**GET** `/api/v1/red/paciente/medicos`  
+**Headers:**  
+`Authorization: Bearer <paciente-token>`  
+
+---
+
+### 🧍‍♂️ Listar Pacientes (para Médicos)  
+**GET** `/api/v1/red/medico/pacientes`  
+**Headers:**  
+`Authorization: Bearer <medico-token>`  
+
+---
+
+## 📊 Dashboard  
+Ruta base: `/api/v1/dashboard`
+
+### 📈 Dashboard del Médico  
+**GET** `/api/v1/dashboard/medico`  
+**Headers:**  
+`Authorization: Bearer <medico-token>`  
+
+**Respuesta:**
+```json
+{
+  "medicoId": "675a1b2c3d4e5f6789012345",
+  "nombre": "Dr. García",
+  "totalPacientes": 45,
+  "pacientesRiesgoAlto": 3,
+  "riesgoPromedio": "MEDIO",
+  "promedioIMC": 24.5,
+  "sintomasFrecuentes": ["dolor de cabeza", "fatiga"],
+  "pacientes": [...],
+  "otrosMedicosRelacionados": [...]
+}
+```
 
 ## 🔒 Seguridad
 
