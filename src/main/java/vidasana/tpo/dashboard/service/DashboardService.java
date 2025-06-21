@@ -1,6 +1,7 @@
 package vidasana.tpo.dashboard.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import vidasana.tpo.habitos.service.HabitoDiarioService;
 import vidasana.tpo.medicos.model.Medico;
@@ -12,6 +13,7 @@ import vidasana.tpo.red.repositories.RedRepository;
 import vidasana.tpo.risk.model.RiskScore;
 import vidasana.tpo.risk.repository.RiskRepository;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
@@ -21,18 +23,27 @@ import java.util.concurrent.atomic.AtomicReference;
 @Service
 @RequiredArgsConstructor
 public class DashboardService {
-
+    private final RedisTemplate<String, Map<String, Object>> redisTemplate;
     private final RedRepository redRepository;
     private final PacienteRepository pacienteRepository;
     private final RiskRepository riskRepository;
     private final MedicoRepository medicoRepository;
     private final HabitoDiarioService habitoService;
-
     public Map<String, Object> obtenerDashboard(String medicoId) {
+        String redisKey = "dashboard:" + medicoId;
+        var ops = redisTemplate.opsForValue();
+
+        // intentamos obtener el dashboard desde Redis
+        Map<String, Object> cached = ops.get(redisKey);
+        if (cached != null) {
+            System.out.println("✅ [CACHE] Dashboard encontrado en Redis para médico " + medicoId);
+            return cached;
+        }
+
+        // si no existe, lo generamos
         Set<String> sintomas = new HashSet<>();
         AtomicInteger riesgoAlto = new AtomicInteger();
         AtomicReference<Double> imcAcumulado = new AtomicReference<>(0.0);
-
         List<Map<String, Object>> pacientesInfo = new ArrayList<>();
         Map<String, Integer> otrosMedicosRelacionados = new HashMap<>();
 
@@ -43,16 +54,24 @@ public class DashboardService {
 
                     if ("ALTO".equals(score.getNivelRiesgo())) riesgoAlto.incrementAndGet();
                     imcAcumulado.updateAndGet(v -> v + obtenerIMC(paciente));
-
                     agregarSintomas(paciente.getId(), sintomas);
                     agregarMedicosRelacionados(node, medicoId, otrosMedicosRelacionados);
-
                     pacientesInfo.add(crearInfoPaciente(paciente, score));
                 })
         );
 
-        return crearDashboard(medicoId, pacientesInfo, otrosMedicosRelacionados, sintomas, riesgoAlto.get(), imcAcumulado.get());
+        Map<String, Object> dashboard = crearDashboard(
+                medicoId, pacientesInfo, otrosMedicosRelacionados, sintomas,
+                riesgoAlto.get(), imcAcumulado.get()
+        );
+
+        // guardamos el resultado en Redis con TTL (5 min)
+        ops.set(redisKey, dashboard, Duration.ofMinutes(5));
+        System.out.println("📝 [CACHE] Dashboard generado y guardado en Redis para médico " + medicoId);
+
+        return dashboard;
     }
+
 
     private RiskScore obtenerUltimoScore(String pacienteId) {
         return riskRepository.findByPacienteId(pacienteId).stream()

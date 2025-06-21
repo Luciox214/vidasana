@@ -16,8 +16,6 @@ public class RedisConfig {
     public RedisTemplate<String, Map<String, Object>> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Map<String, Object>> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
-
-        // Serialización para clave (String) y valor (JSON)
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new Jackson2JsonRedisSerializer<>(Map.class));
         return template;
