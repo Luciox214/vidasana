@@ -1,32 +1,51 @@
+# Documentación y ayuda
 HELP.md
+
+# Maven/Java/Spring Boot
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-### IntelliJ IDEA ###
-.idea
+# IDEs
+.idea/
 *.iws
 *.iml
 *.ipr
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+.apt_generated
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# VS Code
 .vscode/
+
+# Node/React (frontend)
+node_modules/
+Web/vidasana-frontend/node_modules/
+Web/vidasana-frontend/build/
+Web/vidasana-frontend/.pnp
+Web/vidasana-frontend/.pnp.js
+Web/vidasana-frontend/coverage/
+Web/vidasana-frontend/.DS_Store
+Web/vidasana-frontend/.env*
+Web/vidasana-frontend/npm-debug.log*
+Web/vidasana-frontend/yarn-debug.log*
+Web/vidasana-frontend/yarn-error.log*
+
+# Sistema
+.DS_Store
+Thumbs.db

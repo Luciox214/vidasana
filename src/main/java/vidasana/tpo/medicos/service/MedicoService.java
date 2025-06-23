@@ -6,8 +6,6 @@ import vidasana.tpo.enums.Rol;
 import vidasana.tpo.exceptions.BadRequestException;
 import vidasana.tpo.medicos.model.Medico;
 import vidasana.tpo.medicos.repository.MedicoRepository;
-import vidasana.tpo.pacientes.model.Paciente;
-
 import java.util.List;
 
 @Service

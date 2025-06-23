@@ -1,0 +1,21 @@
+.turnos-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.turnos-form input[type="text"],
+.turnos-form input[type="date"],
+.turnos-form input[type="time"] {
+  padding: 0.5rem 1rem;
+  border: 1px solid #bdbdbd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.turnos-form label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}

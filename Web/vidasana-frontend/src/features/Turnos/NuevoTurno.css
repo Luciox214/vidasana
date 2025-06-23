@@ -1,0 +1,44 @@
+.nuevo-turno-card {
+  max-width: 400px;
+  margin: 0 auto 32px auto;
+  background: #f9f9ff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #e0e0e0;
+  padding: 24px 20px 20px 20px;
+}
+.nuevo-turno-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.nuevo-turno-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nuevo-turno-form label {
+  font-weight: 500;
+  color: #1976d2;
+  margin-bottom: 2px;
+}
+.nuevo-turno-form input, .nuevo-turno-form select {
+  padding: 8px;
+  border: 1px solid #b0b0b0;
+  border-radius: 4px;
+  font-size: 15px;
+}
+.nuevo-turno-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.nuevo-turno-btn:hover {
+  background: #125ea2;
+}

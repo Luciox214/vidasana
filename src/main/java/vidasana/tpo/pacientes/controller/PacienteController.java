@@ -79,4 +79,17 @@ public class PacienteController {
         riskRepository.save(score); // Guardar el score calculado
         return ResponseEntity.ok(score);
     }
+
+    // Obtener historia clínica del paciente autenticado
+    @GetMapping("/historia")
+    @PreAuthorize("hasRole('PACIENTE')")
+    public ResponseEntity<HistoriaClinica> obtenerHistoria(Authentication authentication) {
+        String pacienteId = (String) authentication.getPrincipal();
+        Optional<Paciente> pacienteOpt = pacienteService.obtenerPorId(pacienteId);
+        if (pacienteOpt.isEmpty()) return ResponseEntity.notFound().build();
+        Paciente paciente = pacienteOpt.get();
+        HistoriaClinica historia = paciente.getHistoriaClinica();
+        if (historia == null) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(historia);
+    }
 }

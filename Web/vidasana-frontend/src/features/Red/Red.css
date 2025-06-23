@@ -1,0 +1,16 @@
+.red-grid {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.red-grid > div {
+  flex: 1;
+  background: #f0f4fa;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.red-grid h3 {
+  margin-top: 0;
+}
