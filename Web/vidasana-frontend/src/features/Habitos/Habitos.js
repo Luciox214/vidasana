@@ -2,8 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { getHabitos, postHabito } from '../../api';
 import './Habitos.css';
 
+const OPCIONES_ALIMENTACION = [
+  '3 comidas',
+  '2 comidas',
+  'salteado',
+  'vegetariano'
+];
+const OPCIONES_SINTOMAS = [
+  [],
+  ['fiebre'],
+  ['dolor de cabeza'],
+  ['tos', 'dolor garganta'],
+  ['fiebre', 'náuseas']
+];
+
 const Habitos = () => {
-  const [form, setForm] = useState({ sueno: '', alimentacion: '', sintomas: '' });
+  const [form, setForm] = useState({ sueno: '', alimentacion: '', sintomas: [] });
   const [registros, setRegistros] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -17,17 +31,24 @@ const Habitos = () => {
       .then(res => {
         setRegistros(res.data);
         setLoading(false);
-        console.log('GET hábitos OK', res.data);
       })
-      .catch(err => {
+      .catch(() => {
         setError('Error al cargar hábitos');
         setLoading(false);
-        console.error('Error GET hábitos', err);
       });
   }, []);
 
   const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, options } = e.target;
+    if (name === 'sintomas') {
+      // Para <select multiple>
+      const selected = Array.from(options)
+        .filter(option => option.selected)
+        .map(option => option.value);
+      setForm({ ...form, sintomas: selected });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleSubmit = async e => {
@@ -35,14 +56,12 @@ const Habitos = () => {
     setError('');
     setSuccess('');
     try {
-      const res = await postHabito(form);
+      const res = await postHabito({ ...form, sintomas: form.sintomas });
       setRegistros([res.data, ...registros]);
-      setForm({ sueno: '', alimentacion: '', sintomas: '' });
+      setForm({ sueno: '', alimentacion: '', sintomas: [] });
       setSuccess('¡Hábito registrado!');
-      console.log('POST hábito OK', res.data);
-    } catch (err) {
+    } catch {
       setError('Error al registrar hábito');
-      console.error('Error POST hábito', err);
     }
   };
 
@@ -55,12 +74,30 @@ const Habitos = () => {
           <input name="sueno" id="sueno" type="number" min="0" max="24" placeholder="Ej: 7" value={form.sueno} onChange={handleChange} required />
         </div>
         <div className="habitos-field">
-          <label htmlFor="alimentacion">Alimentación <span className="hint">(¿Qué comiste hoy?)</span></label>
-          <input name="alimentacion" id="alimentacion" placeholder="Ej: Ensalada, pollo, arroz..." value={form.alimentacion} onChange={handleChange} required />
+          <label htmlFor="alimentacion">Alimentación</label>
+          <select name="alimentacion" id="alimentacion" value={form.alimentacion} onChange={handleChange} required className="habitos-select">
+            <option value="">Selecciona una opción</option>
+            {OPCIONES_ALIMENTACION.map(opt => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
+          </select>
         </div>
         <div className="habitos-field">
-          <label htmlFor="sintomas">Síntomas <span className="hint">(separados por coma, si tuviste)</span></label>
-          <input name="sintomas" id="sintomas" placeholder="Ej: dolor de cabeza, tos" value={form.sintomas} onChange={handleChange} />
+          <label htmlFor="sintomas">Síntomas</label>
+          <select
+            name="sintomas"
+            id="sintomas"
+            multiple
+            value={form.sintomas}
+            onChange={handleChange}
+            className="habitos-select habitos-select-multiple"
+          >
+            <option value="">Ninguno</option>
+            {Array.from(new Set(OPCIONES_SINTOMAS.flat())).filter(Boolean).map(opt => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
+          </select>
+          <small className="hint">Ctrl+Click para seleccionar varios</small>
         </div>
         <button className="btn habitos-btn" type="submit">Registrar</button>
       </form>

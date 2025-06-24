@@ -48,12 +48,17 @@ export const getHabitos = async () => {
 };
 
 export const postHabito = async (data) => {
-  // El backend espera sintomas como array de string
+  // Si sintomas ya es array, envíalo tal cual; si es string, conviértelo
+  let sintomas = data.sintomas;
+  if (typeof sintomas === 'string') {
+    sintomas = sintomas.split(',').map(s => s.trim()).filter(Boolean);
+  }
+  if (Array.isArray(sintomas) && sintomas.length === 1 && sintomas[0] === '') {
+    sintomas = [];
+  }
   return api.post('/pacientes/habitos', {
     ...data,
-    sintomas: data.sintomas
-      ? data.sintomas.split(',').map(s => s.trim()).filter(Boolean)
-      : []
+    sintomas
   });
 };
 
@@ -118,6 +123,22 @@ export const getRiesgoPacienteById = async (pacienteId) => {
 // RED MÉDICA: obtener médicos relacionados al médico autenticado
 export const getMedicosRelacionados = async () => {
   return api.get('/red/medico/medicos');
+};
+
+// Confirmar o rechazar turnos desde el frontend médico
+export const confirmarTurno = async (turnoId, confirmar) => {
+  return api.put(`/turnos/${turnoId}/confirmar?confirmar=${confirmar}`);
+};
+
+// Nuevas funciones para consultar hábitos, historia y riesgo de un paciente por id usando query param
+export const getHabitosPacienteById = async (pacienteId) => {
+  return api.get(`/pacientes/habitos?id=${pacienteId}`);
+};
+export const getHistoriaClinicaById = async (pacienteId) => {
+  return api.get(`/pacientes/historia?id=${pacienteId}`);
+};
+export const getRiesgoPacienteByIdQuery = async (pacienteId) => {
+  return api.get(`/pacientes/riesgo?id=${pacienteId}`);
 };
 
 // Agrega más funciones para otros endpoints

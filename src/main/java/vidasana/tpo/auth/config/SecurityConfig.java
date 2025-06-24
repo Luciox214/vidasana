@@ -26,7 +26,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/recordatorios").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/medico/**").hasRole("MEDICO")
-                        .requestMatchers("/api/v1/pacientes/**").hasRole("PACIENTE")
+                        .requestMatchers("/api/v1/pacientes/**").hasAnyRole("PACIENTE", "MEDICO")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

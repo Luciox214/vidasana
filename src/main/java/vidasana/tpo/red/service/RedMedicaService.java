@@ -17,4 +17,8 @@ public class RedMedicaService {
     public Set<PacienteNode> listarPacientesDeMedico(String medicoId) {
         return redRepository.listarPacientesDeMedico(medicoId);
     }
+    public boolean estaMedicoAsociadoAPaciente(String medicoId, String pacienteId) {
+        // Busca si el paciente está en la lista de pacientes del médico
+        return listarPacientesDeMedico(medicoId).stream().anyMatch(p -> p.getId().equals(pacienteId));
+    }
 }

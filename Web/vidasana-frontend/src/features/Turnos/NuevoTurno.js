@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMedicosPaciente, getMedicos } from '../../api';
+import { getMedicosPaciente, getMedicos, postTurno } from '../../api';
 import { FaUserMd } from 'react-icons/fa';
 import './NuevoTurno.css';
 
@@ -27,8 +27,7 @@ const NuevoTurno = ({ onTurnoCreado }) => {
     setError('');
     setSuccess('');
     try {
-      // postTurno debe estar implementado en la API
-      await window.api.postTurno({ ...form, fecha: `${form.fecha}T${form.hora}` });
+      await postTurno({ ...form, fecha: `${form.fecha}T${form.hora}` });
       setSuccess('¡Turno solicitado!');
       setForm({ medicoId: '', fecha: '', hora: '' });
       if (onTurnoCreado) onTurnoCreado();

@@ -15,6 +15,15 @@ public class HabitoDiarioService {
     @Autowired
     private HabitoDiarioRepository habitoDiarioRepository;
 
+    public static final String[] OPCIONES_ALIMENTACION = {"3 comidas", "2 comidas", "salteado", "vegetariano"};
+    public static final String[][] POSIBLES_SINTOMAS = {
+            {},
+            {"fiebre"},
+            {"dolor de cabeza"},
+            {"tos", "dolor garganta"},
+            {"fiebre", "náuseas"}
+    };
+
     public HabitoDiario crearHabito(String pacienteId, HabitoDiario habito) {
         habito.setPacienteId(pacienteId);
         if (habito.getFecha() == null) {
@@ -30,31 +39,21 @@ public class HabitoDiarioService {
         List<HabitoDiario> simulados = new ArrayList<>();
         Random random = new Random();
 
-        String[] opcionesAlimentacion = {"3 comidas", "2 comidas", "salteado", "vegetariano"};
-        String[][] posiblesSintomas = {
-                {},
-                {"fiebre"},
-                {"dolor de cabeza"},
-                {"tos", "dolor garganta"},
-                {"fiebre", "náuseas"}
-        };
-
         for (int i = 0; i < dias; i++) {
             HabitoDiario h = new HabitoDiario();
             h.setPacienteId(pacienteId);
             h.setFecha(LocalDate.now().minusDays(i));
 
-            // Generar horas de sueño
             h.setSueno(4 + random.nextInt(5)); // de 4 a 8 hs
 
             // Generar alimentación
-            h.setAlimentacion(opcionesAlimentacion[random.nextInt(opcionesAlimentacion.length)]);
+            h.setAlimentacion(OPCIONES_ALIMENTACION[random.nextInt(OPCIONES_ALIMENTACION.length)]);
 
             // Generar síntomas con posibilidad de sentirse bien
             if (random.nextInt(100) < 50) { // 50% de probabilidad de no tener síntomas
                 h.setSintomas(new ArrayList<>());
             } else {
-                h.setSintomas(List.of(posiblesSintomas[random.nextInt(posiblesSintomas.length)]));
+                h.setSintomas(List.of(POSIBLES_SINTOMAS[random.nextInt(POSIBLES_SINTOMAS.length)]));
                 simulados.add(h);
                 habitoDiarioRepository.save(h);
             }
@@ -63,5 +62,13 @@ public class HabitoDiarioService {
         }
 
         return simulados;
+    }
+
+    public String[] getOpcionesAlimentacion() {
+        return OPCIONES_ALIMENTACION;
+    }
+
+    public String[][] getPosiblesSintomas() {
+        return POSIBLES_SINTOMAS;
     }
 }

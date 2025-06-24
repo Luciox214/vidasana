@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getTurnosMedico } from '../../api';
+import { getTurnosMedico, confirmarTurno } from '../../api';
 import './Turnos.css';
 
 const TurnosMedico = () => {
@@ -14,6 +14,16 @@ const TurnosMedico = () => {
       .catch(() => setError('Error al cargar los turnos'))
       .finally(() => setLoading(false));
   }, []);
+
+  const handleConfirmar = async (turnoId, confirmar) => {
+    setError('');
+    try {
+      await confirmarTurno(turnoId, confirmar);
+      setTurnos(turnos => turnos.map(t => t.id === turnoId ? { ...t, estado: confirmar ? 'CONFIRMADO' : 'RECHAZADO' } : t));
+    } catch (err) {
+      setError('Error al actualizar el turno');
+    }
+  };
 
   return (
     <div className="card">
@@ -40,11 +50,10 @@ const TurnosMedico = () => {
                 <td>{t.fecha}</td>
                 <td>{t.estado}</td>
                 <td>
-                  {/* Aquí puedes agregar botones para aceptar/rechazar si corresponde */}
                   {t.estado === 'PENDIENTE' && (
                     <>
-                      <button className="btn btn-accept">Aceptar</button>
-                      <button className="btn btn-reject">Rechazar</button>
+                      <button className="btn btn-accept" onClick={() => handleConfirmar(t.id, true)}>Aceptar</button>
+                      <button className="btn btn-reject" onClick={() => handleConfirmar(t.id, false)}>Rechazar</button>
                     </>
                   )}
                 </td>

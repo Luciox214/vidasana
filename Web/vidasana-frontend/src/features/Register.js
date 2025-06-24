@@ -5,10 +5,11 @@ import './LoginRegister.css';
 const Register = () => {
   const [form, setForm] = useState({
     nombre: '',
+    apellido: '',
     email: '',
     password: '',
     tipo: 'paciente',
-    // otros campos si es necesario
+    especialidad: '', // solo para médicos
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,12 +26,23 @@ const Register = () => {
     setLoading(true);
     try {
       if (form.tipo === 'paciente') {
-        await registerPaciente(form);
+        await registerPaciente({
+          nombre: form.nombre,
+          apellido: form.apellido,
+          email: form.email,
+          password: form.password
+        });
       } else {
-        await registerMedico(form);
+        await registerMedico({
+          nombre: form.nombre,
+          apellido: form.apellido,
+          email: form.email,
+          password: form.password,
+          especialidad: form.especialidad
+        });
       }
       setSuccess(true);
-      setForm({ nombre: '', email: '', password: '', tipo: form.tipo });
+      setForm({ nombre: '', apellido: '', email: '', password: '', tipo: form.tipo, especialidad: '' });
     } catch (err) {
       setError('Error al registrar. Email ya registrado o datos inválidos.');
     } finally {
@@ -46,9 +58,13 @@ const Register = () => {
           <option value="paciente">Paciente</option>
           <option value="medico">Médico</option>
         </select>
-        <input name="nombre" placeholder="Nombre completo" value={form.nombre} onChange={handleChange} required />
+        <input name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} required />
+        <input name="apellido" placeholder="Apellido" value={form.apellido} onChange={handleChange} required />
         <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} required />
         <input name="password" type="password" placeholder="Contraseña" value={form.password} onChange={handleChange} required />
+        {form.tipo === 'medico' && (
+          <input name="especialidad" placeholder="Especialidad" value={form.especialidad} onChange={handleChange} required />
+        )}
         <button className="btn" type="submit" disabled={loading}>{loading ? 'Registrando...' : 'Registrarse'}</button>
         {error && <div className="auth-error">{error}</div>}
         {success && <div className="auth-success">¡Registro exitoso! Ahora puedes iniciar sesión.</div>}

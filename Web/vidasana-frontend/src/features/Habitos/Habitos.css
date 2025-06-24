@@ -39,21 +39,79 @@
   font-size: 15px;
 }
 
-.habitos-btn {
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  padding: 12px;
+/*
+  Mejora visual para los dropdowns de hábitos y síntomas
+*/
+.habitos-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid #6ec1e4;
+  border-radius: 8px;
+  background: #fafdff;
+  font-size: 1rem;
+  color: #222;
+  transition: border 0.2s;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+.habitos-select:focus {
+  border-color: #2d9cdb;
+  outline: none;
+  background: #eaf6fb;
+}
+.habitos-select-multiple {
+  min-height: 70px;
+  max-height: 120px;
+  background: linear-gradient(180deg, #fafdff 60%, #eaf6fb 100%);
+  border: 1.5px solid #6ec1e4;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #222;
+  padding: 8px 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(45,156,219,0.07);
+}
+.habitos-select-multiple option {
+  padding: 6px 10px;
   border-radius: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: background 0.2s;
+}
+.habitos-select-multiple option:checked {
+  background: #6ec1e4;
+  color: #fff;
 }
 
+/* Mejora para el botón */
+.habitos-btn {
+  background: linear-gradient(90deg, #2d9cdb 0%, #6ec1e4 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
 .habitos-btn:hover {
-  background: #125ea2;
+  background: linear-gradient(90deg, #6ec1e4 0%, #2d9cdb 100%);
+}
+
+/* Mejora para los campos */
+.habitos-field label {
+  font-weight: 500;
+  color: #2d9cdb;
+  margin-bottom: 2px;
+}
+.habitos-field {
+  margin-bottom: 18px;
+}
+
+.hint {
+  color: #888;
+  font-size: 0.9em;
+  margin-left: 6px;
 }
 
 .habitos-table th,
